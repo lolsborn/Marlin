@@ -55,20 +55,6 @@
  * http://www.thingiverse.com/thing:298812
  */
 
-//===========================================================================
-//============================= DELTA Printer ===============================
-//===========================================================================
-// For a Delta printer start with one of the configuration files in the
-// example_configurations/delta directory and customize for your machine.
-//
-
-//===========================================================================
-//============================= SCARA Printer ===============================
-//===========================================================================
-// For a SCARA printer start with the configuration files in
-// example_configurations/SCARA and customize for your machine.
-//
-
 // @section info
 
 // User-specified version info of this build to display in [Pronterface, etc] terminal window during
@@ -112,23 +98,9 @@
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
 #define BAUDRATE 250000
-
-// Enable the Bluetooth serial interface on AT90USB devices
-//#define BLUETOOTH
-
-// The following define selects which electronics board you have.
-// Please choose the name from boards.h that matches your setup
-#ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_14_EFB
-#endif
-
-// Optional custom name for your RepStrap or other custom machine
-// Displayed in the LCD "Ready" message
-//#define CUSTOM_MACHINE_NAME "3D Printer"
-
-// Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
-// You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
-//#define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
+#define MOTHERBOARD BOARD_MKS_13 //BOARD_SAINSMART_2IN1
+#define CUSTOM_MACHINE_NAME "PrusaIO"
+#define MACHINE_UUID "1a034f65-7a6e-4235-8008-4e5c725ebebf"
 
 // @section extruder
 
@@ -137,77 +109,7 @@
 #define EXTRUDERS 1
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
-#define DEFAULT_NOMINAL_FILAMENT_DIA 3.0
-
-// For Cyclops or any "multi-extruder" that shares a single nozzle.
-//#define SINGLENOZZLE
-
-/**
- * Průša MK2 Single Nozzle Multi-Material Multiplexer, and variants.
- *
- * This device allows one stepper driver on a control board to drive
- * two to eight stepper motors, one at a time, in a manner suitable
- * for extruders.
- *
- * This option only allows the multiplexer to switch on tool-change.
- * Additional options to configure custom E moves are pending.
- */
-//#define MK2_MULTIPLEXER
-#if ENABLED(MK2_MULTIPLEXER)
-  // Override the default DIO selector pins here, if needed.
-  // Some pins files may provide defaults for these pins.
-  //#define E_MUX0_PIN 40  // Always Required
-  //#define E_MUX1_PIN 42  // Needed for 3 to 8 steppers
-  //#define E_MUX2_PIN 44  // Needed for 5 to 8 steppers
-#endif
-
-// A dual extruder that uses a single stepper motor
-//#define SWITCHING_EXTRUDER
-#if ENABLED(SWITCHING_EXTRUDER)
-  #define SWITCHING_EXTRUDER_SERVO_NR 0
-  #define SWITCHING_EXTRUDER_SERVO_ANGLES { 0, 90 } // Angles for E0, E1[, E2, E3]
-  #if EXTRUDERS > 3
-    #define SWITCHING_EXTRUDER_E23_SERVO_NR 1
-  #endif
-#endif
-
-// A dual-nozzle that uses a servomotor to raise/lower one of the nozzles
-//#define SWITCHING_NOZZLE
-#if ENABLED(SWITCHING_NOZZLE)
-  #define SWITCHING_NOZZLE_SERVO_NR 0
-  #define SWITCHING_NOZZLE_SERVO_ANGLES { 0, 90 }   // Angles for E0, E1
-  //#define HOTEND_OFFSET_Z { 0.0, 0.0 }
-#endif
-
-/**
- * Two separate X-carriages with extruders that connect to a moving part
- * via a magnetic docking mechanism. Requires SOL1_PIN and SOL2_PIN.
- */
-//#define PARKING_EXTRUDER
-#if ENABLED(PARKING_EXTRUDER)
-  #define PARKING_EXTRUDER_SOLENOIDS_INVERT           // If enabled, the solenoid is NOT magnetized with applied voltage
-  #define PARKING_EXTRUDER_SOLENOIDS_PINS_ACTIVE LOW  // LOW or HIGH pin signal energizes the coil
-  #define PARKING_EXTRUDER_SOLENOIDS_DELAY 250        // Delay (ms) for magnetic field. No delay if 0 or not defined.
-  #define PARKING_EXTRUDER_PARKING_X { -78, 184 }     // X positions for parking the extruders
-  #define PARKING_EXTRUDER_GRAB_DISTANCE 1            // mm to move beyond the parking point to grab the extruder
-  #define PARKING_EXTRUDER_SECURITY_RAISE 5           // Z-raise before parking
-  #define HOTEND_OFFSET_Z { 0.0, 1.3 }                // Z-offsets of the two hotends. The first must be 0.
-#endif
-
-/**
- * "Mixing Extruder"
- *   - Adds a new code, M165, to set the current mix factors.
- *   - Extends the stepping routines to move multiple steppers in proportion to the mix.
- *   - Optional support for Repetier Firmware M163, M164, and virtual extruder.
- *   - This implementation supports only a single extruder.
- *   - Enable DIRECT_MIXING_IN_G1 for Pia Taubert's reference implementation
- */
-//#define MIXING_EXTRUDER
-#if ENABLED(MIXING_EXTRUDER)
-  #define MIXING_STEPPERS 2        // Number of steppers in your mixing extruder
-  #define MIXING_VIRTUAL_TOOLS 16  // Use the Virtual Tool method with M163 and M164
-  //#define DIRECT_MIXING_IN_G1    // Allow ABCDHI mix factors in G1 movement commands
-#endif
+#define DEFAULT_NOMINAL_FILAMENT_DIA 1.75
 
 // Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
 // The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
@@ -446,20 +348,6 @@
 #define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
 #define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
 
-//===========================================================================
-//============================= Mechanical Settings =========================
-//===========================================================================
-
-// @section machine
-
-// Uncomment one of these options to enable CoreXY, CoreXZ, or CoreYZ kinematics
-// either in the usual order or reversed
-//#define COREXY
-//#define COREXZ
-//#define COREYZ
-//#define COREYX
-//#define COREZX
-//#define COREZY
 
 //===========================================================================
 //============================== Endstop Settings ===========================
@@ -492,12 +380,12 @@
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-#define X_MIN_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Y_MIN_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define X_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Y_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Z_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define X_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Y_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING false // set to true to invert the logic of the probe.
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
@@ -526,10 +414,10 @@
 
 /**
  * Default Axis Steps Per Unit (steps/mm)
- * Override with M92
+ * Override with M92F25
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4]]]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 4000, 500 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 500 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -748,9 +636,9 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false
-#define INVERT_Y_DIR true
-#define INVERT_Z_DIR false
+#define INVERT_X_DIR true
+#define INVERT_Y_DIR false
+#define INVERT_Z_DIR true
 
 // Enable this option for Toshiba stepper drivers
 //#define CONFIG_STEPPERS_TOSHIBA
@@ -759,7 +647,7 @@
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
 #define INVERT_E0_DIR false
-#define INVERT_E1_DIR false
+#define INVERT_E1_DIR true
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
 #define INVERT_E4_DIR false
@@ -780,7 +668,7 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 200
+#define X_BED_SIZE 300
 #define Y_BED_SIZE 200
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
@@ -1320,7 +1208,7 @@
  *            https://github.com/olikraus/U8glib_Arduino
  */
 //#define ULTRA_LCD   // Character based
-//#define DOGLCD      // Full graphics display
+#define DOGLCD      // Full graphics display
 
 /**
  * SD CARD
@@ -1329,7 +1217,7 @@
  * you must uncomment the following option or it won't work.
  *
  */
-//#define SDSUPPORT
+#define SDSUPPORT
 
 /**
  * SD CARD: SPI SPEED
@@ -1337,7 +1225,7 @@
  * Enable one of the following items for a slower SPI transfer speed.
  * This may be required to resolve "volume init" errors.
  */
-//#define SPI_SPEED SPI_HALF_SPEED
+#define SPI_SPEED SPI_HALF_SPEED
 //#define SPI_SPEED SPI_QUARTER_SPEED
 //#define SPI_SPEED SPI_EIGHTH_SPEED
 
@@ -1392,7 +1280,7 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-//#define INDIVIDUAL_AXIS_HOMING_MENU
+#define INDIVIDUAL_AXIS_HOMING_MENU
 
 //
 // SPEAKER/BUZZER
@@ -1400,7 +1288,7 @@
 // If you have a speaker that can produce tones, enable it here.
 // By default Marlin assumes you have a buzzer with a fixed frequency.
 //
-//#define SPEAKER
+#define SPEAKER
 
 //
 // The duration and frequency for the UI feedback sound.
@@ -1409,8 +1297,8 @@
 // Note: Test audio output with the G-Code:
 //  M300 S<frequency Hz> P<duration ms>
 //
-//#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 100
-//#define LCD_FEEDBACK_FREQUENCY_HZ 1000
+#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 100
+#define LCD_FEEDBACK_FREQUENCY_HZ 200
 
 //
 // CONTROLLER TYPE: Standard
@@ -1481,7 +1369,7 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 
 //
 // MakerLab Mini Panel with graphic
@@ -1511,28 +1399,6 @@
 //
 //#define BQ_LCD_SMART_CONTROLLER
 
-//
-// Cartesio UI
-// http://mauk.cc/webshop/cartesio-shop/electronics/user-interface
-//
-//#define CARTESIO_UI
-
-//
-// ANET and Tronxy Controller supported displays.
-//
-//#define ZONESTAR_LCD            // Requires ADC_KEYPAD_PIN to be assigned to an analog pin.
-                                  // This LCD is known to be susceptible to electrical interference
-                                  // which scrambles the display.  Pressing any button clears it up.
-                                  // This is a LCD2004 display with 5 analog buttons.
-
-//#define ANET_FULL_GRAPHICS_LCD  // Anet 128x64 full graphics lcd with rotary encoder as used on Anet A6
-                                  // A clone of the RepRapDiscount full graphics display but with
-                                  // different pins/wiring (see pins_ANET_10.h).
-
-//
-// LCD for Melzi Card with Graphical LCD
-//
-//#define LCD_FOR_MELZI
 
 //
 // CONTROLLER TYPE: I2C
@@ -1616,15 +1482,6 @@
 // http://reprap.org/wiki/MKS_MINI_12864
 //
 //#define MKS_MINI_12864
-
-//
-// Factory display for Creality CR-10
-// https://www.aliexpress.com/item/Universal-LCD-12864-3D-Printer-Display-Screen-With-Encoder-For-CR-10-CR-7-Model/32833148327.html
-//
-// This is RAMPS-compatible using a single 10-pin connector.
-// (For CR-10 owners who want to replace the Melzi Creality board but retain the display)
-//
-//#define CR10_STOCKDISPLAY
 
 //
 // MKS OLED 1.3" 128x64 FULL GRAPHICS CONTROLLER
